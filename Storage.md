@@ -230,3 +230,49 @@ Obviously a two level index is needed: One for the first to the second letter an
 But 6 two level indices are unnecessary. One top level index which contains 6 sub level indices (AV, VE, EA, VA, EV, AE) is sufficient,
 because the functionality of each index is decided by the last two letters and the first letters can be merged into one.
 All 6 subindices together with the BitMap of a Symbol are concatenated into one BitVector per Symbol.
+
+
+## External Format
+An Ontology can be completely serialized into a BitVector and deserialized back again.
+The first 8 bits encode how many padding bits were used to meet a byte alignment.
+This ensures compatibility with most storage and transmission infrastructure today.
+
+### Chunks
+The serialization can split the payload into chunks of arbitrary size,
+which are independent of another and have no meaningful order.
+This locality allows for better compression as the serval options can be changed in each chunk and it enables streaming e.g. network packets.
+The header of a chunk contains some compression options and a optional static Huffman tree for the Symbols.
+
+The body consists of a set of Symbols:
+- Symbol / Entity ID
+- BitMaps
+    - Header
+        - Slice Count
+        - Slices
+            - Offset
+            - Length
+    - Body: Concatenated slice payload
+- AV index
+    - Header
+        - Attribute Count
+        - Attribute ID
+    - Body: Value Set
+        - Header: Value Count
+        - Body: Value IDs
+
+### Binary Variable Length Code
+Definitions:
+- n = Payload Length
+- log_2() = Integer logarithm of base 2
+- log_2(n+1)+2^log_2(n+1) = Code Length
+- Payload Length / Code Length = Efficiency
+- Code: 0 Terminate, 1 Continue, # Payload
+
+|  n | log_2(n+1) | Code Length | Efficiency | Code                     |
+| -- | ---------- | ----------- | ---------- | ------------------------ |
+|  0 |          0 |           1 |         0% | 0                        |
+|  1 |          1 |           3 |        33% | 1#0                      |
+|  3 |          2 |           6 |        50% | 1#1##0                   |
+|  7 |          3 |          11 |        63% | 1#1##1####0              |
+| 15 |          4 |          20 |        75% | 1#1##1####1########0     |
+| .. |         .. |          .. |         .. | 1#1##1####1########1 ... |
