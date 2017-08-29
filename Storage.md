@@ -52,6 +52,14 @@ Possible use cases include:
 
 ## Reasoning
 
+### DIKWE Pyramid
+Our interpretation and modification to the model of the [DIKW pyramid](https://en.wikipedia.org/wiki/DIKW_pyramid):
+- Data / know-nothing: BitMaps are unprocessed raw data. They have to be processed and structured to become useful. But they still have a purpose as this is the only layer which has a physical manifestation and can thus be directly stored or transported. The indent of cryptography and encodings is to bring all upper layers down to this one for practical reasons.
+- Information / know-what: Triples represent the interconnection and structure. They can answer specific questions to ”who”, ”what”, ”where”, ”how many”, ”when”. Information alone is not enough as it would only provide a database with a query interface.
+- Knowledge / know-how: A system also needs to know how and what to ask in order to process information in a useful way. This domain specific intelligence enables combining and optimizing the available resources with a specific task in mind. It could be provided by something like automatic ontology merging.
+- Wisdom / know-why: Knowing the reason why things are the way they are or how they came to be can help to further improve the own system by preventing the repetition of errors and learning from them, which might lead to new insights again. This is a fundamental part of general intelligence.
+- Enlightenment / know-yourself: The final step towards general intelligence is a utility function, a motivation which evaluates what should and what shouldn’t be. Having goals gives us a reason to think about the future, predict multiple outcomes and plan a strategy to be acted out.
+
 ### Why we are using Triples
 Mathematically you could base it all on sets (the Zermelo-Fraenkel-Axiom-System),
 but it is quiet annoying when it comes to ordering things.
