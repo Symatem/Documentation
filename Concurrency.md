@@ -26,3 +26,19 @@ Eventual consistency means that local branches of a master version can be mainta
 Ultimately, all branches have to be merged back into the master branch, leading to consistency (eventually).
 Both are similar, with the difference that optimistic locking simply discards the other branches implicitly,
 while eventual consistency has to merge the differences explicitly and thus requires special programming for the merging.
+
+### Level 3: VCS
+This model can branch and can also merge but there is no need to do so.
+Instead all branches form a directed acyclic graph (DAG) much like GIT.
+
+
+## Reasoning
+
+### Problem of Nested Transactions in Eventual Consistency
+- Committing inner transactions right away, so others can see and build upon them
+    - The outer could not be aborted / rolled back and thus would lose its status of an atomic transaction
+- Committing inner transactions with the commit of the most outer one
+    - The outer could become massive and too big / long, preventing interaction with others
+    - Would be the same as using a pessimistic semaphore, not really optimistic
+- Forbid nesting of transactions
+    - Programmers might violate this rule without noticing, hidden in a called subroutine or recursion
