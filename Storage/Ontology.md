@@ -1,4 +1,4 @@
-# Storage
+# Ontology
 When I started this project I asked my self: "What is information?"
 This seemed to be the central question, as many terms are gathered around it:
 Computer, mathematics, other sciences, the word intelligence ...
@@ -10,6 +10,14 @@ Except from the additional work overhead, nothing has changed, when compared to 
 The information remains exactly the same.
 So information does not arise form the Symbols but only from the relations between them.
 In computer science we use and apply this principle everyday and still often forget about it.
+
+
+## Representations: Internal vs. External
+The internal format is used while the system is running and can be used for in other instances of the engine as well,
+as long as they have the same hardware (register bit length and endianness) and run the same software version.
+It also contains a lot of redundancy in acceleration data structures.
+The external format comes into play if a migration to a different instance of the engine is needed (hardware or software version)
+or a part of the data is extracted and compressed for backups or transport over network.
 
 
 ## Outer Interface
@@ -39,9 +47,9 @@ These BitMaps are an abstraction of memory virtualization:
 - To store numbers, text and files
 - To represent hardware devices and physical memory
 
-### Ontology
-One instance of the engine can hold multiple Ontologies which are separate Symbol spaces.
-Therefore, all Triples and BitMaps are separated between Ontologies as well.
+### Symbol Space
+One instance of the engine can hold multiple separate Symbol spaces.
+All Triples and BitMaps are separated between them.
 Possible use cases include:
 - Memoization / caching
 - Isolation / security
@@ -78,9 +86,9 @@ I considered higher orders and dimensions too, but I decided to go with the numb
 - And the complexity of search indices increases with the factorial function
 
 ### Why we are using BitMaps
-Ontologies could work without BitMaps but then even the simplest things would have to be expressed in an ugly and inefficient way.
+Ontologies could work without BitMaps as pure EAV stores but then all literals and binary data would be expressed in an ugly and inefficient way.
 For example: Numbers would be represented like we humans do using a sequence of symbols, so called digits, forming a positional notation.
-Let alone storing huge files like audio or video data would be nearly impossible.
+Let alone storing huge files like audio or video data would be very impractical.
 
 ### Order of Values with the same Entity and Attribute
 - User defined order
@@ -161,126 +169,3 @@ It comes to existence the moment you have some sort of addressing memory words.
 This is the reason why endianness only exists when it comes to bytes, not on bit level.
 Simply because most architectures start addressing on byte level.
 To cut a long story short we only use little endian.
-
-
-## Representations: Internal vs. External
-The internal format is used while the system is running and can be used for in other instances of the engine as well,
-as long as they have the same hardware (register bit length and endianness) and run the same software version.
-It also contains a lot of redundancy in acceleration data structures.
-The external format comes into play if a migration to a different instance of the engine is needed (hardware or software version)
-or a part of the data is extracted and compressed for backups or transport over network.
-
-## Internal Format
-The data of all SubOntologies is stored in one image, separated into two levels:
-- Storage level: Basic data structures and BitVectors
-- Ontology level: Triples and BitMaps
-
-The RAM is used as a big cache (by mmaping it) and doesn't have its own address space instead the one of the disks is used.
-So no data structure translation takes place and the memory hierarchy is homogeneous.
-In the future a different approach might be used:
-- All the time using MMU (current implementation)
-    - Costs additional time and energy
-    - Requires mapping for the entire disk address space
-- On demand
-    - Costs one bit pointer tag, which has to be checked upon every new access
-    - Requires some meta structures
-- None
-    - NVM or RAM only
-
-### Page
-Pages of the size 2 to the power of 15 bits divide the entire memory.
-The first page is called SuperPage and represents the root of all structures.
-There is a pointer to the end of the currently allocated memory (immediately behind the highest page in use)
-and a free pool of pages which were released but are not at the end.
-New acquired pages are taken from the pool first and if it's empty then from the end.
-This ensures locality of the images as it grows (but not as it shrinks).
-
-### BitVector
-BitVectors consist of a symbol (like an inode in filesystems) and a sequence of bits associated with it, addressable by an offset.
-Both symbol and offset together span a virtual address space.
-There is one associative array per Ontology which maps symbols to start addresses of the BitVectors payload / data.
-BitVectors which are smaller than half a page are stored in buckets the rest is fragmented in the leaves of balanced trees
-(currently [B+ trees](https://en.wikipedia.org/wiki/B%2B_tree), might be replaced by [Van Emde Boas trees](https://en.wikipedia.org/wiki/Van_Emde_Boas_tree) for example).
-
-### Bucket BitVector
-A bucket is the size of a page and divided into the following sections:
-- Header:
-    - Type: Index of the alignment size / how big each data segment is
-    - Count: Number of BitVectors in this bucket / how many data segments are in use
-    - FreeIndex: Entry to a linked list of free segment indices (stored in symbols section)
-- Sizes: How many bits of the aligned data segments are in use per BitVector (minus minimum size in this bucket)
-- Data: Actual data segments / payload of each BitVector
-- Symbols of the BitVector to enable redistribution between buckets
-
-### Fragmented BitVector
-Instead of using the addresses explicitly as key (indices) and data bits as values in a associative array (like it is done by most filesystems)
-we use implicit addresses called ranks by keeping order statistics which create a data structure called [rope](https://en.wikipedia.org/wiki/Rope_(data_structure)).
-[Order statistic trees](https://en.wikipedia.org/wiki/Order_statistic_tree) are implemented by storing the element count of the sub trees spanned by the children
-(these counts are integrated in the parent node to allow binary search) and enable local updates of the now implicit addresses,
-thus efficient range insert / delete without moving the entire rest of the data and updating all addresses.
-
-### BitMap
-BitMaps consist of a virtualization header followed by all the defined payload slices without any gaps.
-The header is an associative array mapping virtual offsets to offsets inside the BitVector of the BitMap.
-BitMaps are simply the extension of BitVectors with sparsity support.
-
-### Triple Index Modi
-The following modes are supported which are strict subsets of one another:
-- Single: EAV
-- Tri: EAV, AVE, VEA
-- Hexa: EAV, AVE, VEA, EVA, AEV, VAE
-
-The letters E(ntity), A(ttribute) and V(alue) represent their semantic position in a Triple.
-The order is important, e.g. in tri-mode each letter (E/A/V) is first, second and last once (this is intended).
-
-### Triples Index Structure
-Obviously a two level index is needed: One for the first to the second letter and one from the second to the third.
-But 6 two level indices are unnecessary. One top level index which contains 6 sub level indices (AV, VE, EA, VA, EV, AE) is sufficient,
-because the functionality of each index is decided by the last two letters and the first letters can be merged into one.
-All 6 subindices together with the BitMap of a Symbol are concatenated into one BitVector per Symbol.
-
-
-## External Format
-An Ontology can be completely serialized into a BitVector and deserialized back again.
-The first 8 bits encode how many padding bits were used to meet a byte alignment.
-This ensures compatibility with most storage and transmission infrastructure today.
-
-### Chunks
-The serialization can split the payload into chunks of arbitrary size,
-which are independent of another and have no meaningful order.
-This locality allows for better compression as the serval options can be changed in each chunk and it enables streaming e.g. network packets.
-The header of a chunk contains some compression options and a optional static Huffman tree for the Symbols.
-
-The body consists of a set of Symbols:
-- Symbol / Entity ID
-- BitMaps
-    - Header
-        - Slice Count
-        - Slices
-            - Offset
-            - Length
-    - Body: Concatenated slice payload
-- AV index
-    - Header
-        - Attribute Count
-        - Attribute ID
-    - Body: Value Set
-        - Header: Value Count
-        - Body: Value IDs
-
-### Binary Variable Length Code
-Definitions:
-- n = Payload Length
-- log_2() = Integer logarithm of base 2
-- log_2(n+1)+2^log_2(n+1) = Code Length
-- Payload Length / Code Length = Efficiency
-- Code: 0 Terminate, 1 Continue, # Payload
-
-|  n | log_2(n+1) | Code Length | Efficiency | Code                     |
-| -- | ---------- | ----------- | ---------- | ------------------------ |
-|  0 |          0 |           1 |         0% | 0                        |
-|  1 |          1 |           3 |        33% | 1#0                      |
-|  3 |          2 |           6 |        50% | 1#1##0                   |
-|  7 |          3 |          11 |        63% | 1#1##1####0              |
-| 15 |          4 |          20 |        75% | 1#1##1####1########0     |
-| .. |         .. |          .. |         .. | 1#1##1####1########1 ... |

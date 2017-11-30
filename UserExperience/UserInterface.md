@@ -1,7 +1,9 @@
-# Tool Chain & Human Computer Interaction
+# User Interface
+The user interface unites visualizer, editor and debugger into one.
+It is an integrated development environment which is not only meant for developers.
 
 
-## Visualization
+## Triples
 There are 4 different ways to look at Triples:
 
 ### Graph
@@ -31,7 +33,7 @@ of a Attribute.
 
 ## Reasoning
 
-### Projectional editing
+### Projectional Editing
 Text-based:
     - Disadvantages:
         - One long sequence of characters which has to be tokenized and parsed first: Unnecessary error source
