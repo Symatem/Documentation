@@ -7,14 +7,14 @@ Our approach to programming is derived from graphical data flow models and simil
 Control flow is implemented by passing operators / lambdas around as data flow and then optionally executing them like in LISP.
 The names of the components are not decided yet.
 
-- Operator: unit, block, method, component, module, node
+- Operator: unit, block, method, component, module
     - Has couplings => Interface
     - Has operations and carriers => Implementation
-    - Not a sequence (total order) of steps => But a DAG
-    - Additional constraints can be installed for different behavior
+    - Not a sequence (total order) of steps => But a DAG (partial order)
+    - Additional constraints can be added for different behavior
     - Primitives are atomic / fundamental and can not be subdivided => their boundaries are sync fences
 
-- Operation: instruction, instance, element
+- Operation: instruction, instance, element, node
 
 - Carrier: wire, connection, belt, cable, thread, line, edge, conveyor, tube mail, tube, pipe, track, railway, road, way, path
     - Two ends, one direction only

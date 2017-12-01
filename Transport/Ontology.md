@@ -51,18 +51,23 @@ These BitMaps are an abstraction of memory virtualization:
 One instance of the engine can hold multiple separate Symbol spaces.
 All Triples and BitMaps are separated between them.
 Possible use cases include:
-- Memoization / caching
-- Isolation / security
-- Temporary workspaces
+- Performance: Memoization / caching
+- Context isolation
+    - Modularity / distribution
+    - Security (malicious) / robustness (accidental)
+    - Temporary workspaces
+    - Relocation to avoid Symbol collision and ambiguity
 - Virtualization / views
-- [Version Control](VersionControl.md)
+    - Inductive: To enable infinite sets for example
+    - Transparent: Materialized or virtual should not matter
+    - [Version Control](VersionControl.md)
 
 
 ## Reasoning
 
 ### DIKWE Pyramid
 Our interpretation and modification to the model of the [DIKW pyramid](https://en.wikipedia.org/wiki/DIKW_pyramid):
-- Data / know-nothing: BitMaps are unprocessed raw data. They have to be processed and structured to become useful. But they still have a purpose as this is the only layer which has a physical manifestation and can thus be directly stored or transported. The indent of cryptography and encodings is to bring all upper layers down to this one for practical reasons.
+- Data / know-nothing: BitMaps are unprocessed raw data. They have to be processed and structured to become useful. But they still have a purpose as this is the only layer which has a physical manifestation and it is thus necessary for the transport (storage and transmission). The indent of encodings is to bring all upper layers down to this one for practical reasons.
 - Information / know-what: Triples represent the interconnection and structure. They can answer specific questions to ”who”, ”what”, ”where”, ”how many”, ”when”. Information alone is not enough as it would only provide a database with a query interface.
 - Knowledge / know-how: A system also needs to know how and what to ask in order to process information in a useful way. This domain specific intelligence enables combining and optimizing the available resources with a specific task in mind. It could be provided by something like automatic ontology merging.
 - Wisdom / know-why: Knowing the reason why things are the way they are or how they came to be can help to further improve the own system by preventing the repetition of errors and learning from them, which might lead to new insights again. This is a fundamental part of general intelligence.
@@ -84,6 +89,20 @@ I considered higher orders and dimensions too, but I decided to go with the numb
 - You can't always assign useful semantics to each position of a longer tuple
 - Or you would have to use varying lengths, but that could be done with Triples in first place
 - And the complexity of search indices increases with the factorial function
+
+### Why we don't use Semantic Web Technologies
+Some of the flaws are described in [these blog posts](http://milicicvuk.com/blog/2011/07/14/problems-of-the-rdf-model-blank-nodes/):
+- Too many different technologies: RDF, OWL, Turtle, N3, ...
+- 3 types of symbols (called terms): IRIs (Internationalized Resource Identifiers), Literals, Blank Nodes
+- Literal encodings / data types are a special feature and not represented in Triples
+- Literal values define the identity of the token, thus can not be context specific
+- EAV is asymmetric: Each element of a triple can only host certain types of symbols
+
+Additionally we identified these:
+- No usable tool chain
+- No virtualization
+- No version control
+- Only a simple query engine (SPARQL) but no arbitrary programs / execution
 
 ### Why we are using BitMaps
 Ontologies could work without BitMaps as pure EAV stores but then all literals and binary data would be expressed in an ugly and inefficient way.

@@ -34,13 +34,18 @@ of a Attribute.
 ## Reasoning
 
 ### Projectional Editing
-Text-based:
-    - Disadvantages:
-        - One long sequence of characters which has to be tokenized and parsed first: Unnecessary error source
-        - Is hard for machines to process and generate
-        - Use hierarchies: Only one output per instruction, need additional concepts like names and symbols to link the tree to a graph
-        - Semantic structures are hidden below geometry and syntax, this disables projectional programming
-    - Advantages:
-        - Typing with the keyboard can be faster and more compact than graphical programming using the mouse
-        - Geometry improves orientation inside the source code for some people
-        - Currently tools like GIT are optimized for this
+Advantages:
+- No scanning / lexing / parsing needed: No syntax errors and different styles anymore
+- IDE / GUI / beautifier / linter etc. become projectors
+- More homogenous structures / interfaces
+    - Far less primitives, most can be moved to the standard library
+    - Multiple inputs and outputs per function
+    - No need for names (usually called symbols) to connect the sequence / hierarchy into a graph
+- Program is just data like any other: Better meta programming and reflection / reification
+- Better for machines to operate on
+- More and potentially better code complexity measure than LOC (lines of code)
+
+Disadvantages:
+- Typing with the keyboard can be faster and more compact than graphical programming using the mouse
+- Geometry improves orientation inside the source code for some people
+- Currently tools like GIT are optimized for sequences / text

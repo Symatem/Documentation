@@ -11,12 +11,14 @@ The goal is to develop a consistent unified system / framework replacing all of 
     - [Concurrency](Processing/Concurrency.md)
     - [Standard Library](Processing/StandardLibrary.md)
     - [Runtime Environment](Processing/RuntimeEnvironment.md)
-- Storage
-    - [Ontology Engine](Storage/Ontology.md) / Database / File System
-        - [Internal Format](Storage/InternalFormat.md)
-        - [External Format](Storage/ExternalFormat.md)
-    - [Encodings](Storage/Encodings.md)
-    - [Version Control](Storage/VersionControl.md)
+- Transport (Encode / Decode)
+    - Transport in time: Storage (Write / Read)
+    - Transport in space: Transmission (Send / Receive)
+    - [Ontology Engine](Transport/Ontology.md) / Database / File System
+        - [Internal Format](Transport/InternalFormat.md)
+        - [External Format](Transport/ExternalFormat.md)
+    - [Encodings](Transport/Encodings.md)
+    - [Version Control](Transport/VersionControl.md)
     - Distribution
 - User Experience
     - [User Interface](UserExperience/UserInterface.md)
