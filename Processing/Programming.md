@@ -34,6 +34,37 @@ The names of the components are not decided yet.
 
 ## Reasoning
 
+### Inspiration
+- LISP
+    - Programs are data too: Express control flow in data flow using lambdas
+    - Minimalistic syntax: Almost projectional editing
+    - Few primitives
+- ECMA Script / JavaScript
+    - Dynamic Attributes / Properties
+    - Inheritance: Prototyping instead of classes
+    - Array indices are just normal Attributes
+- C++
+    - Const Expressions
+    - Templates
+- Smalltalk / Squeak
+    - Super IDE / All-in-one VM image: Operating System, Database, Editor, Compiler, Debugger, Version Control
+    - Live debugging
+- UNIX / POSIX
+    - Inodes (Ontology Symbols)
+    - Mounting (Virtualization / Namespaces)
+    - Reification: Everything is a file
+- LLVM IR
+    - Basic blocks
+    - SSA
+    - DAG
+- Semantic Web: RDF
+    - Triples
+    - EAV model
+    - Reflection
+- GIT
+    - Branches
+    - Distribution
+
 ### Programming Paradigms
 - Imperative
     - Disadvantages

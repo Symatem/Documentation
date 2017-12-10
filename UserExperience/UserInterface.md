@@ -34,9 +34,13 @@ of a Attribute.
 ## Reasoning
 
 ### Projectional Editing
+If you are not familiar with the idea:
+[Here](https://cloudalion.org/2016/05/29/whats-the-deal-with-projectional-editing/) is a good introduction.
+
 Advantages:
 - No scanning / lexing / parsing needed: No syntax errors and different styles anymore
 - IDE / GUI / beautifier / linter etc. become projectors
+- Can be far more customized / domain specific (like DSLs)
 - More homogenous structures / interfaces
     - Far less primitives, most can be moved to the standard library
     - Multiple inputs and outputs per function

@@ -38,12 +38,10 @@ Attribute predicate, Value object and a Triple forms a sentence.
 | Attribute | Like a property or a key in a dictionary / map |
 | Value | Like the value of a property or the value in a dictionary / map |
 
-### BitMap
-Each symbol has its own infinite address space in which one of three states (0, 1 or undefined) can be assigned to each index.
-Only 0 and 1 are encoded while undefined is used to allow for sparsity.
-By default a symbols BitMap is filled with undefined and is thus empty.
-Also, they do not interfere with the Triples in any way.
-These BitMaps are an abstraction of memory virtualization:
+### Data
+Each symbol has its own infinite address space in which a binary state can be assigned to each index.
+They do not interfere with the Triples in any way.
+They are an optimization and abstraction of memory virtualization:
 - To store numbers, text and files
 - To represent hardware devices and physical memory
 
@@ -114,9 +112,13 @@ Let alone storing huge files like audio or video data would be very impractical.
     - Ordered containers like arrays would not generate any overhead
     - Values gain a special role and this is thus asymmetric
     - Would be inconsistent with the rest of the model in which all Triples are an unordered set
-- Natural order (We use this option)
-    - Order has to be represented using Triples, thus generating overhead but can be applied only when needed
+- Natural order
+    - Order has to be represented using Triples, thus generating overhead but only for sequences
     - Search indices can be optimized
+- Virtualized Index Attributes (We use this option)
+    - Stays consistent with the rest of the model
+    - Can be optimized internally (no overhead)
+    - Limited by the available Symbols
 
 ### Referencing triples
 - Triple-ID: Just store a reference to an existing Triple
@@ -174,14 +176,11 @@ Unlike the side of the road a country might have decided to drive on,
 where there is no actual better or worse way of doing it, this is not the case with endianness.
 Little and big endian are not symmetrical opposites such as left and right.
 Therefore there are reasons for both, but one is better: little.
-As it is more consistent, uses less operations when static casting and
+As it is more consistent, uses less operations when reinterpret casting and
 has simpler equations to calculate the indices of digits for example.
 When using big endian, you always need to know and take the total length of your number into account.
 You might have noticed this disadvantage when trying to read out a huge number in a text:
 You need to count the digits and think before you can start moving your lips.
-The only advantage big endian has is, when it comes to comparing / sorting lists of values with non uniform length.
-But as every machine loads the values into a uniform length registers before comparing them
-and also memory alignment and padding problems exist too, this advantage vanishes into thin air.
 - "It has to do with bits and bytes"
 Fist of all it is independent of the base your positional system uses. So it is not a binary only problem.
 It comes to existence the moment you have some sort of addressing memory words.
