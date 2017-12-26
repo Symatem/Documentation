@@ -26,7 +26,7 @@ The names of the components are not decided yet.
     - Two ends, one direction only
     - Located at an operator boundary
 
-- Package, token, data, train, cart, bubble, message, telegram
+- Packet, token, data, train, cart, bubble, message, telegram
     - Contains independent / temporary data
 
 - Activation, record, process, thread, program, application, task, call, execution instance
@@ -47,8 +47,8 @@ The names of the components are not decided yet.
     - Const Expressions
     - Templates
 - Smalltalk / Squeak
-    - Super IDE / All-in-one VM image: Operating System, Database, Editor, Compiler, Debugger, Version Control
-    - Live debugging
+    - Super IDE / All-in-one VM image: Operating System, Database, Editor, Compiler, Live Debugger, Version Control
+    - Few primitives, move everything into Standard Library
 - UNIX / POSIX
     - Inodes (Ontology Symbols)
     - Mounting (Virtualization / Namespaces)
@@ -66,34 +66,37 @@ The names of the components are not decided yet.
     - Distribution
 
 ### Programming Paradigms
-- Imperative
-    - Disadvantages
-        - Sequence of instructions (a total order)
+There are three major approaches to programming:
+    - Imperative
+        - Total order: Sequence of instructions
         - Strict evaluation of functions (sync-fences)
         - Data flow is implicit and obscure, e.g. "side effects"
+            - Cached values become outdated if their dependencies change
+            - State interference: Iterate while modify, race conditions, ...
         - Control flow is explicit and not integrated into data flow
-        - State interference: Iterate while modify, race conditions, ...
         - Strict consistency, locking: Bad for multithreading
-        - Cached values become outdated if their dependencies change
-    - Advantages
-        - Close to the physical world and the machines it is running on
-        - Useful for actual implementations
-
-- Functional
-    - Disadvantages
+    - Functional
+        - Partial order: Data flow graph
+        - Implicit control flow in data flow
+        - Concurrent by default
         - Immutable: No stable object identity (over time), object orientation is impossible
-        - Stateless: Interaction with physical world is impossible
-    - Advantages
-        - Useful to describe ideas and algorithms
-        - Closer to math and more abstract
-
-- Descriptive
-    - Disadvantages
-        - Control flow is non existent: They aren't programs in that sense
+    - Declarative
+        - Control flow and data flow are non existent: They aren't programs in that sense
         - Static: No concept of time at all, far from physical world
-    - Advantages
-        - Implementation and optimization independent
-        - Useful for storing data
+        - Constraint and relation based: Similar to Transport layer
+
+Properties they share:
+    - Describe
+        - Imperative and Functional: Describe how things are done, without necessarily describing the result
+        - Declarative: Describing how valid results look like, without describing how to obtain them
+    - Single static assignment
+        - Imperative can be transformed into functional using SSA
+        - Functional can be seen and executed as imperative without any changes
+    - Referential transparency
+        - Results and expressions are interchangeable.
+        - No side effects: Always reproducible
+        - Stateless: Interaction with physical world is impossible
+        - Functional and declarative share this property
 
 ### Uni- vs bidirectional
 - Unidirectional is simpler and two connections can be combined to be bidirectional
