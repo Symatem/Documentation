@@ -28,15 +28,22 @@ Because they don't encode any information, every distinguishable thing does the 
 We use natural numbers (unsigned integers) as our current computers can handle them the best.
 
 ### Triple
-A Triple is a tuple composed of 3 Symbols: Entity, Attribute and Value.
-Small analogy: In natural languages the Entity is called subject,
-Attribute predicate, Value object and a Triple forms a sentence.
+A Triple is a tuple composed of 3 Symbols:
+<span style="color: red;">Entity</span>, <span style="color: green;">Attribute</span> and <span style="color: blue;">Value</span>.
 
-| Name | Description |
-| ---- | ----------- |
-| Entity | More or less the actual object |
-| Attribute | Like a property or a key in a dictionary / map |
-| Value | Like the value of a property or the value in a dictionary / map |
+JSON: <span style="color: red;">{</span><span style="color: green;">"key"</span>: <span style="color: blue;">"value"</span><span style="color: red;">}</span>
+
+XML: <span style="color: red;">&lt;tag</span> <span style="color: green;">key</span>=<span style="color: blue;">"value"</span> <span style="color: red;">/&gt;</span>
+
+Natural Languages often call them <span style="color: red;">Subject</span>, <span style="color: green;">Predicate</span> and <span style="color: blue;">Object</span>:
+- English: A <span style="color: red;">car</span> <span style="color: green;">has</span> an <span style="color: blue;">engine</span>.
+- German: Ein <span style="color: red;">Auto</span> <span style="color: green;">hat</span> einen <span style="color: blue;">Motor</span>.
+- Japanese: <span style="color: red;">車</span>は<span style="color: blue;">エンジン</span>が<span style="color: green;">あります</span>.
+
+[Binary relations](https://en.wikipedia.org/wiki/Finitary_relation):
+(<span style="color: red;">a</span>, <span style="color: blue;">b</span>) ∈ <span style="color: green;">R</span>
+
+LISP: <span style="color: red;">(</span><span style="color: green;">car</span> <span style="color: blue;">cdr</span><span style="color: red;">)</span>
 
 ### Data
 Each symbol has its own infinite address space in which a binary state can be assigned to each index.
@@ -45,9 +52,9 @@ They are an optimization and abstraction of memory virtualization:
 - To store numbers, text and files
 - To represent hardware devices and physical memory
 
-### Symbol Space
-One instance of the engine can hold multiple separate Symbol spaces.
-All Triples and BitMaps are separated between them.
+### Namespace
+One instance of the engine can hold multiple separate Symbol Namespaces.
+
 Possible use cases include:
 - Performance: Memoization / caching
 - Context isolation
@@ -76,17 +83,11 @@ Mathematically you could base it all on sets (the Zermelo-Fraenkel-Axiom-System)
 but it is quiet annoying when it comes to ordering things.
 So using tuples (which can be formed out of sets only) is a more elegant way.
 
-For example LISP and Scheme both seem to use only 2-tuples (CAR, CDR).
-Actually these are 3-tuples too, because each one has its own address (an additional implicit data field).
-But it usually promotes thinking in hierarchies like trees, lists and so on.
-Using a homogeneous tuple (Entity, Attribute, Value)
-gives you a even better foundation and promotes thinking in networks and graphs, though.
-It is like the difference between living in a 2D or a 3D world.
-
-I considered higher orders and dimensions too, but I decided to go with the number three because:
-- You can't always assign useful semantics to each position of a longer tuple
-- Or you would have to use varying lengths, but that could be done with Triples in first place
-- And the complexity of search indices increases with the factorial function
+I considered different orders and dimensions too:
+- 0 and 1-Tuples make no sense as they don't create any relation
+- Pure 2 Tuples are possible but need lots of blank nodes as proxies and end up emulating Triples
+- Fixed n-Tuples have to assign a fixed meaning for each position (scheme) and end up being a database table with sparse values
+- Dynamic n-Tuples have to define a meaning for each position too (Attribute) and end up emulating triples again
 
 ### Why we don't use Semantic Web Technologies
 Some of the flaws are described in [these blog posts](http://milicicvuk.com/blog/2011/07/14/problems-of-the-rdf-model-blank-nodes/):
