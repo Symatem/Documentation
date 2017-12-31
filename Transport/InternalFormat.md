@@ -47,11 +47,6 @@ we use implicit addresses called ranks by keeping order statistics which create 
 (these counts are integrated in the parent node to allow binary search) and enable local updates of the now implicit addresses,
 thus efficient range insert / delete without moving the entire rest of the data and updating all addresses.
 
-### BitMap
-BitMaps consist of a virtualization header followed by all the defined payload slices without any gaps.
-The header is an associative array mapping virtual offsets to offsets inside the BitVector of the BitMap.
-BitMaps are simply the extension of BitVectors with sparsity support.
-
 ### Triple Index Modi
 The following modes are supported which are strict subsets of one another:
 - Single: EAV
