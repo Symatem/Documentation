@@ -22,7 +22,3 @@ The goal is to develop a consistent unified system / framework replacing all of 
     - Distribution
 - User Experience
     - [User Interface](UserExperience/UserInterface.md)
-        - Triples
-        - Data
-        - Programs
-        - Version Control / Collaboration

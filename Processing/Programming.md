@@ -5,31 +5,11 @@ Almost all programming technologies today are arranged in some sort of spectrum.
 ## Components
 Our approach to programming is derived from graphical data flow models and similar to functional programming and the way we design logic circuits today.
 Control flow is implemented by passing operators / lambdas around as data flow and then optionally executing them like in LISP.
-The names of the components are not decided yet.
 
-- Operator: unit, block, method, component, module
-    - Has couplings => Interface
-    - Has operations and carriers => Implementation
-    - Not a sequence (total order) of steps => But a DAG (partial order)
-    - Additional constraints can be added for different behavior
-    - Primitives are atomic / fundamental and can not be subdivided => their boundaries are sync fences
-
-- Operation: instruction, instance, element, node
-
-- Carrier: wire, connection, belt, cable, thread, line, edge, conveyor, tube mail, tube, pipe, track, railway, road, way, path
-    - Two ends, one direction only
-    - Located between units
-    - Data flow is well defined and variables become obsolete: Data is passed directly and can not be overwritten (functional style)
-    - Execution order is implicitly defined as well, stateful operations can use empty data connections
-
-- Coupling: socket, input/output, entry/exit, gate, portal, port
-    - Two ends, one direction only
-    - Located at an operator boundary
-
-- Packet, token, data, train, cart, bubble, message, telegram
-    - Contains independent / temporary data
-
-- Activation, record, process, thread, program, application, task, call, execution instance
+- Operator
+- Operation
+- Operand
+- Carrier
 
 
 ## Reasoning
@@ -37,6 +17,7 @@ The names of the components are not decided yet.
 ### Inspiration
 - LISP
     - Programs are data too: Express control flow in data flow using lambdas
+    - Recursion instead of iteration
     - Minimalistic syntax: Almost projectional editing
     - Few primitives
 - ECMA Script / JavaScript
@@ -67,36 +48,36 @@ The names of the components are not decided yet.
 
 ### Programming Paradigms
 There are three major approaches to programming:
-    - Imperative
-        - Total order: Sequence of instructions
-        - Strict evaluation of functions (sync-fences)
-        - Data flow is implicit and obscure, e.g. "side effects"
-            - Cached values become outdated if their dependencies change
-            - State interference: Iterate while modify, race conditions, ...
-        - Control flow is explicit and not integrated into data flow
-        - Strict consistency, locking: Bad for multithreading
-    - Functional
-        - Partial order: Data flow graph
-        - Implicit control flow in data flow
-        - Concurrent by default
-        - Immutable: No stable object identity (over time), object orientation is impossible
-    - Declarative
-        - Control flow and data flow are non existent: They aren't programs in that sense
-        - Static: No concept of time at all, far from physical world
-        - Constraint and relation based: Similar to Transport layer
+- Imperative
+    - Total order: Sequence of instructions
+    - Strict evaluation of functions (sync-fences)
+    - Data flow is implicit and obscure, e.g. "side effects"
+        - Cached values become outdated if their dependencies change
+        - State interference: Iterate while modify, race conditions, ...
+    - Control flow is explicit and not integrated into data flow
+    - Strict consistency, locking: Bad for multithreading
+- Functional
+    - Partial order: Data flow graph
+    - Implicit control flow in data flow
+    - Concurrent by default
+    - Immutable: No stable object identity (over time), object orientation is impossible
+- Declarative
+    - Control flow and data flow are non existent: They aren't programs in that sense
+    - Static: No concept of time at all, far from physical world
+    - Constraint and relation based: Similar to Transport layer
 
 Properties they share:
-    - Describe
-        - Imperative and Functional: Describe how things are done, without necessarily describing the result
-        - Declarative: Describing how valid results look like, without describing how to obtain them
-    - Single static assignment
-        - Imperative can be transformed into functional using SSA
-        - Functional can be seen and executed as imperative without any changes
-    - Referential transparency
-        - Results and expressions are interchangeable.
-        - No side effects: Always reproducible
-        - Stateless: Interaction with physical world is impossible
-        - Functional and declarative share this property
+- Describe
+    - Imperative and Functional: Describe how things are done, without necessarily describing the result
+    - Declarative: Describing how valid results look like, without describing how to obtain them
+- Single static assignment
+    - Imperative can be transformed into functional using SSA
+    - Functional can be seen and executed as imperative without any changes
+- Referential transparency
+    - Results and expressions are interchangeable.
+    - No side effects: Always reproducible
+    - Stateless: Interaction with physical world is impossible
+    - Functional and declarative share this property
 
 ### Uni- vs bidirectional
 - Unidirectional is simpler and two connections can be combined to be bidirectional
@@ -111,7 +92,12 @@ Properties they share:
 - Push forward and execute next block as soon as all needed values arrive (Forward / Eager Evaluation)
 - Pull values from previous blocks what is needed (Backward / Lazy Evaluation)
 
+### Control Flow
+- Continuation: Cycles, PHI Nodes
+- Lambda: DAG, Recursion
+
 ### Lifetime Management
 - Manual: Like new and delete
 - Automatic reference counting (ARC)
+- Stack / scope bound
 - Garbage collector (GC)
