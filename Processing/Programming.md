@@ -3,13 +3,36 @@ Almost all programming technologies today are arranged in some sort of spectrum.
 
 
 ## Components
-Our approach to programming is derived from graphical data flow models and similar to functional programming and the way we design logic circuits today.
+Our approach to programming is derived from graphical data flow / dependency models and similar to functional programming and the way logic circuits are designed.
 Control flow is implemented by passing operators / lambdas around as data flow and then optionally executing them like in LISP.
 
-- Operator
-- Operation
-- Operand
-- Carrier
+- Operator:
+    - Consists of
+        - Operations
+        - (Carriers)
+        - (Operands)
+    - Is called by operations (an operator can contain an operation calling itself, leading to recursion)
+    - Is not a sequence (total order) of steps => But a DAG (partial order)
+    - Boundaries are not sync fences (except for primitives)
+
+- Operation:
+    - Executes an operator received from the respective operand
+    - Receives and sends operands via carriers
+
+- Operand:
+    - Are not explicitly modeled but implicitly defined by carriers using the same operand tag
+    - Located at an operator boundary and can be input or output
+    - A carrier feeding an operand as destination has to be the only one doing so
+    - Multiple carriers can be fed by one operand as source (causing data to be replicated)
+
+- Carrier:
+    - Are directional and have two ends (source and destination)
+        - Both ends are associated with an operand tag
+        - Both ends can be an operation or an operator
+        - Carriers between different operators or operations contained by different operators are invalid
+    - Exception: The source can be a constant value as operand
+    - Data flow is well defined and variables become obsolete: Data is passed directly and can not be overwritten (SSA / functional style)
+    - Execution order is implicitly defined as well, stateful operations can use void carriers for explicit ordering
 
 
 ## Reasoning

@@ -52,17 +52,21 @@ If you are not familiar with the idea:
 [Here](https://cloudalion.org/2016/05/29/whats-the-deal-with-projectional-editing/) is a good introduction.
 
 Advantages:
-- No scanning / lexing / parsing needed: No syntax errors and different styles anymore
-- IDE / GUI / beautifier / linter etc. become projectors
-- Can be far more customized / domain specific (like DSLs)
-- More homogenous structures / interfaces
-    - Far less primitives, most can be moved to the standard library
-    - Multiple inputs and outputs per function
+- Things that become unnecessary:
+    - No scanning / lexing / parsing needed
+    - No syntax errors and different styles anymore
     - No need for names (usually called symbols) to connect the sequence / hierarchy into a graph
-- Program is just data like any other: Better meta programming and reflection / reification
-- Better for machines to operate on
-- More and potentially better code complexity measure than LOC (lines of code)
+- Easier to release new versions / standards
+    - Ground truth: Enforces clear distinction between semantics and representation / decoration
+    - More homogenous structures / interfaces
+    - Far less primitives, most can be moved to the standard library
+    - Can be far more customized / domain specific (like DSLs)
+- Transformability (Program is just data like any other)
+    - Better meta programming and reflection / reification
+    - Better for machines to operate on
+    - More and potentially better code complexity measure than LOC (lines of code)
 
 Disadvantages:
 - Geometry improves orientation inside the source code for some people and it is hard to project this additional non-semantics forward and backward
 - Currently tools like GIT are optimized for sequences / text
+- Can not make errors / produce an invalid outcome on purpose

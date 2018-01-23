@@ -33,7 +33,7 @@ A Triple is a tuple composed of 3 Symbols:
 
 JSON: <span style="color: red;">{</span><span style="color: green;">"key"</span>: <span style="color: blue;">"value"</span><span style="color: red;">}</span>
 
-XML: <span style="color: red;">&lt;tag</span> <span style="color: green;">key</span>=<span style="color: blue;">"value"</span> <span style="color: red;">/&gt;</span>
+XML: &lt;<span style="color: red;">tag</span> <span style="color: green;">key</span>=<span style="color: blue;">"value"</span> /&gt;
 
 Natural Languages often call them <span style="color: red;">Subject</span>, <span style="color: green;">Predicate</span> and <span style="color: blue;">Object</span>:
 - English: A <span style="color: red;">car</span> <span style="color: green;">has</span> an <span style="color: blue;">engine</span>.
@@ -56,27 +56,28 @@ They are an optimization and abstraction of memory virtualization:
 One instance of the engine can hold multiple separate Symbol Namespaces.
 
 Possible use cases include:
-- Performance: Memoization / caching
 - Context isolation
-    - Modularity / distribution
+    - Relocation: Symbol collision and ambiguity
+    - Modularity / distribution / package management
     - Security (malicious) / robustness (accidental)
-    - Temporary workspaces
-    - Relocation to avoid Symbol collision and ambiguity
-- Virtualization / views
-    - Inductive: To enable infinite sets for example
-    - Transparent: Materialized or virtual should not matter
+    - Temporary workspaces / memoization / caching
+- Virtualization / views / mounting
+    - Transparency: Materialized or virtual does not matter
+    - Reification: e.g. hardware interfaces
+    - Induction: e.g. infinite sets
     - [Version Control](VersionControl.md)
 
 
 ## Reasoning
 
-### DIKWE Pyramid
+### DISRP Pyramid
 Our interpretation and modification to the model of the [DIKW pyramid](https://en.wikipedia.org/wiki/DIKW_pyramid):
-- Data / know-nothing: BitMaps are unprocessed raw data. They have to be processed and structured to become useful. But they still have a purpose as this is the only layer which has a physical manifestation and it is thus necessary for the transport (storage and transmission). The indent of encodings is to bring all upper layers down to this one for practical reasons.
-- Information / know-what: Triples represent the interconnection and structure. They can answer specific questions to ”who”, ”what”, ”where”, ”how many”, ”when”. Information alone is not enough as it would only provide a database with a query interface.
-- Knowledge / know-how: A system also needs to know how and what to ask in order to process information in a useful way. This domain specific intelligence enables combining and optimizing the available resources with a specific task in mind. It could be provided by something like automatic ontology merging.
-- Wisdom / know-why: Knowing the reason why things are the way they are or how they came to be can help to further improve the own system by preventing the repetition of errors and learning from them, which might lead to new insights again. This is a fundamental part of general intelligence.
-- Enlightenment / know-yourself: The final step towards general intelligence is a utility function, a motivation which evaluates what should and what shouldn’t be. Having goals gives us a reason to think about the future, predict multiple outcomes and plan a strategy to be acted out.
+
+- Data: BitMaps are unprocessed raw data. They have to be processed and structured to become useful. But they still have a purpose as this is the only layer which has a physical manifestation and it is thus necessary for the transport (storage and transmission). The indent of encodings is to bring all upper layers down to this one for practical reasons.
+- Information (What): Triples represent the interconnection and structure. They can answer specific questions to ”who”, ”what”, ”where”, ”how many”, ”when”. Information alone is not enough as it would only provide a database with a query interface.
+- Strategy (How): A system also needs to know how to do process information and what questions to ask: Algorithms, applications, encodings etc.
+- Reasoning (Why): Knowing the reason why things are the way they are, how they came to be and how they could be (simulation of alternatives) can help to further improve the own system by preventing the repetition of errors and learning from them, which might lead to new insights again.
+- Purpose (Axiom): A utility function evaluates what should and what shouldn’t be. All layers below are rational, but this one is an axiom and has to be defined from the outside. A system can not define its own purpose (without a purpose).
 
 ### Why we are using Triples
 Mathematically you could base it all on sets (the Zermelo-Fraenkel-Axiom-System),

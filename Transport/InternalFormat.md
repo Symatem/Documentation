@@ -1,4 +1,7 @@
 # Internal Format
+NOTE: This page is outdated and only describes the C++ implementation, not the ES6 and future ones.
+
+
 The data of all SubOntologies is stored in one image, separated into two levels:
 - Storage level: Basic data structures and BitVectors
 - Ontology level: Triples and BitMaps
