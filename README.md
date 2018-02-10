@@ -8,6 +8,7 @@ The goal is to develop a consistent unified system / framework replacing all of 
 
 - Processing
     - [Programming "Language"](Processing/Programming.md)
+    - [Compiler](Processing/Compiler.md)
     - [Concurrency](Processing/Concurrency.md)
     - [Standard Library](Processing/StandardLibrary.md)
     - [Runtime Environment](Processing/RuntimeEnvironment.md)
