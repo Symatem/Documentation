@@ -13,6 +13,7 @@ git clone --recursive https://github.com/Symatem/Symatem.git
 Then go into the [UserInterface repository](https://github.com/Symatem/UserInterface)
 and open index.html in a browser of your choice either directly
 (make sure to disable local file restrictions and cross origin policies) or host it using [Node.JS](https://nodejs.org/) for example.
+Alternatively, you can also try the bleeding edge [online version](https://symatem.github.io/UserInterface/index.html).
 The user interface is optimized for Firefox but also actively maintained on Safari.
 
 
