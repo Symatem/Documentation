@@ -6,11 +6,7 @@ It is an integrated development environment which is not only meant for develope
 ## Getting Started
 It is best to checkout the [umbrella repository](https://github.com/Symatem/Symatem),
 because it ensures the compatibility of all submodules / repositories.
-```sh
-git clone --recursive https://github.com/Symatem/Symatem.git
-```
-
-Then go into the [UserInterface repository](https://github.com/Symatem/UserInterface)
+Then go into your local copy of the [UserInterface repository](https://github.com/Symatem/UserInterface)
 and open index.html in a browser of your choice either directly
 (make sure to disable local file restrictions and cross origin policies) or host it using [Node.JS](https://nodejs.org/) for example.
 Alternatively, you can also try the bleeding edge [online version](https://symatem.github.io/UserInterface/index.html).

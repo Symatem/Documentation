@@ -16,11 +16,11 @@ The aux map of an entry only exists while the entry is being processed (thus ind
 - blockedOperations: Set of operations which are waiting for an entry to finish processing.
 
 
-## Execution and Topological Sorting
+## Execution
 The compiler uses a cooperative concurrent (not parallel) version of [Kahn's algorithm](https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm),
-interpret the operation DAG of an operator sequentially.
+in order to schedule (topological sort) and then interpret the operation DAG of an operator sequentially.
 
-### Phase 0: Primitive Detection
+### Phase 0: Cache Fetch / Primitive Detection
 For each operator called / executed the compiler first checks if the specific instantiation was executed already (if an entry exists in the cache).
 If so it is returned immediately (note that the entry can still have an auxiliary structure and be processed).
 Else an entry is generated and pushed to the cache.

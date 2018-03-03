@@ -16,23 +16,25 @@ Control flow is implemented by passing operators / lambdas around as data flow a
     - Boundaries are not sync fences (except for primitives)
 
 - Operation:
-    - Executes an operator received from the respective operand
+    - Executes / calls an operator received from the respective operand (tag is "Operator")
     - Receives and sends operands via carriers
 
 - Operand:
+    - Is the data which is passed over at an operators boundary as input or output
     - Are not explicitly modeled but implicitly defined by carriers using the same operand tag
-    - Located at an operator boundary and can be input or output
-    - A carrier feeding an operand as destination has to be the only one doing so
-    - Multiple carriers can be fed by one operand as source (causing data to be replicated)
+    - Special: The operand tag "Operator" specifies which operator is called by the receiving operation
 
 - Carrier:
     - Are directional and have two ends (source and destination)
         - Both ends are associated with an operand tag
-        - Both ends can be an operation or an operator
-        - Carriers between different operators or operations contained by different operators are invalid
-    - Exception: The source can be a constant value as operand
-    - Data flow is well defined and variables become obsolete: Data is passed directly and can not be overwritten (SSA / functional style)
-    - Execution order is implicitly defined as well, stateful operations can use void carriers for explicit ordering
+        - Both ends can be an operation or the outer operator
+        - Exception: The source can be a constant value as operand
+    - Carriers between operations contained by different operators are invalid
+    - Data is replicated if multiple carriers are fed by one operand as source
+
+- Operator Instance:
+    - An operator which is called with a certain set of operands creates an instance (like templates / generics)
+    - Are cached and results / outputs are reused if another call with the same inputs occurs
 
 
 ## Reasoning
@@ -84,7 +86,7 @@ There are three major approaches to programming:
     - Implicit control flow in data flow
     - Concurrent by default
     - Immutable: No stable object identity (over time), object orientation is impossible
-- Declarative
+- Declarative / Logic
     - Control flow and data flow are non existent: They aren't programs in that sense
     - Static: No concept of time at all, far from physical world
     - Constraint and relation based: Similar to Transport layer
@@ -92,7 +94,7 @@ There are three major approaches to programming:
 Properties they share:
 - Describe
     - Imperative and Functional: Describe how things are done, without necessarily describing the result
-    - Declarative: Describing how valid results look like, without describing how to obtain them
+    - Declarative / Logic: Describing how valid results look like, without describing how to obtain them
 - Single static assignment
     - Imperative can be transformed into functional using SSA
     - Functional can be seen and executed as imperative without any changes
