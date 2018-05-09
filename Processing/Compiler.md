@@ -2,13 +2,18 @@
 
 ## Entry
 Each instantiation of an operator with specific input operands creates one entry in a cache (similar to templates in C++).
+- symbol: Identifies this specific instantiation
 - inputOperands: Map of operand tags and their input operands
     - operator: The operator to be called / executed is one of the input operands
+    - hash: Hash value of all input operands (used as cache key)
+    - inputOperandBundle: Automatic bundling of all input operands
 - outputOperands: Map of operand tags and their output operands
-- name: The mangled name to identify this specific instantiation
+    - outputOperandBundle: Automatic bundling of all output operands
 
 ### Auxiliary Structure
 The aux map of an entry only exists while the entry is being processed (thus indicates the processing state).
+- llvmBasicBlock: The last basic block (instructions will land here by default)
+- inputLlvmValueBundle: Automatic bundling of all input values
 - operatDestinationOperands: Set of destination operands being collected per operation and the outer operator
 - operationsBlockedByThis: Set of operations per entry which are waiting for this operator to finish processing.
 - unsatisfiedOperations: Reference count of carriers per operation which have not been propagated yet.

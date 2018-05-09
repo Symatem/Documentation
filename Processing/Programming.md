@@ -1,37 +1,52 @@
 # Programming
 Almost all programming technologies today are arranged in some sort of spectrum. Usually we call the extremes low- / high-level and associate them with opposites like AOT vs. JIT, compiler vs. interpreter and virtual machines. Most software systems are specialized in one tiny area on the spectrum. Nothing covers the entire spectrum. And so we have to combine different systems and architectures to a huge inhomogeneous patchwork rug. This increases overall complexity and comes with a lot of problems: People have to learn all those implementations, they don't work well together, we have lots of adaptors instead of nice modularity and thus even more bugs. Programming languages come and go all the time, some stay longer than others. But most of them move around a few paradigms in circles and just paint the same ideas with new colors.
 
+## Goals
+- Symmetric / Uniform / Homogenous
+- Concurrent / Parallel by default
+- Minimalistic: Small compiler, move everything else into Standard Library
+- Easy refactoring: Partitioning / capsulation and inlining
+- Abstraction mechanisms: Reflection / meta programming
+- No structural difference of compile-time and runtime
+
+## Design Decisions
+- No syntax, macros or lookups: Projectional editing
+- Axiomatic / DAG Layers vs Cyclic Graphs: No fundamental primitives (primitives are just an optimization)
+- Control flow is expressed by data flow (using lambdas for conditional execution)
+- Parameter / arguments are not ordered only named (mapping)
+- Execution order is implicitly defined by data flow (partial ordering)
+- Stateful operations can use void carriers for explicit total ordering
+- Operator boundaries are only for abstraction and not an implicit sync fence
+- Dynamic typing with automatic type deduction
+- Variables are split into transport declarations and placeholders
+- Const expressions / TypedPlaceholders / Deferring
 
 ## Components
-Our approach to programming is derived from graphical data flow / dependency models and similar to functional programming and the way logic circuits are designed.
-Control flow is implemented by passing operators / lambdas around as data flow and then optionally executing them like in LISP.
-
 - Operator:
     - Consists of
         - Operations
-        - (Carriers)
-        - (Operands)
+        - Carriers
+        - Operands
     - Is called by operations (an operator can contain an operation calling itself, leading to recursion)
     - Is not a sequence (total order) of steps => But a DAG (partial order)
     - Boundaries are not sync fences (except for primitives)
-
 - Operation:
     - Executes / calls an operator received from the respective operand (tag is "Operator")
     - Receives and sends operands via carriers
-
 - Operand:
-    - Is the data which is passed over at an operators boundary as input or output
-    - Are not explicitly modeled but implicitly defined by carriers using the same operand tag
-    - Special: The operand tag "Operator" specifies which operator is called by the receiving operation
-
+    - An operand is the data which is passed over at an operators boundary as input or output
+    - Operands are not explicitly modeled but implicitly defined by carriers using the same operand tag
+    - Special operand tags:
+        - Constant: See carrier
+        - Operator: Specifies which operator is called by the receiving operation
+        - Operands: Can pack and unpack all operands at a boundary
 - Carrier:
-    - Are directional and have two ends (source and destination)
+    - Carriers are directional and have two ends (source and destination)
         - Both ends are associated with an operand tag
         - Both ends can be an operation or the outer operator
-        - Exception: The source can be a constant value as operand
+        - The source can be a constant value (using the "Constant" operand tag)
     - Carriers between operations contained by different operators are invalid
     - Data is replicated if multiple carriers are fed by one operand as source
-
 - Operator Instance:
     - An operator which is called with a certain set of operands creates an instance (like templates / generics)
     - Are cached and results / outputs are reused if another call with the same inputs occurs
@@ -41,10 +56,11 @@ Control flow is implemented by passing operators / lambdas around as data flow a
 
 ### Inspiration
 - LISP
-    - Programs are data too: Express control flow in data flow using lambdas
+    - Reflection & meta-programming: Programs are data too
     - Recursion instead of iteration
     - Minimalistic syntax: Almost projectional editing
-    - Few primitives
+    - Primitives are just an optimization and can be constructed using others
+    - Few primitives, move everything into Standard Library
 - ECMA Script / JavaScript
     - Dynamic Attributes / Properties
     - Inheritance: Prototyping instead of classes
@@ -54,7 +70,6 @@ Control flow is implemented by passing operators / lambdas around as data flow a
     - Templates
 - Smalltalk / Squeak
     - Super IDE / All-in-one VM image: Operating System, Database, Editor, Compiler, Live Debugger, Version Control
-    - Few primitives, move everything into Standard Library
 - UNIX / POSIX
     - Inodes (Ontology Symbols)
     - Mounting (Virtualization / Namespaces)
@@ -62,7 +77,7 @@ Control flow is implemented by passing operators / lambdas around as data flow a
 - LLVM IR
     - Basic blocks
     - SSA
-    - DAG
+    - DAG of data flow and execution order
 - Semantic Web: RDF
     - Triples
     - EAV model
