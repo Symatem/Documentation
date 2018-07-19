@@ -61,13 +61,13 @@ Sadly, many other systems and programming languages confuse and mix up encodings
 ### Inlining of Dynamically Growing and Shrinking Composites
 Many other systems and programming languages can only define the size in two ways:
 Statically in the encoding / data type or dynamically once per object / allocation.
-So if a data structure changes its size at different places,
+So, if a data structure changes its size at different places,
 you have to split it up in parts which can change their size independently and use references / pointers in between them.
 
 This approach is also possible using BitVectors (as allocations) and Triples (as references / pointers),
 but in case your data structure is read far more often than changed in its size, you can use a new concept: Dynamic composite inlining.
 Inlining structs in structs in C is static composite inlining.
-However in C these structs can not change their size.
+However, in C these structs can not change their size.
 But our BitVectors can because BitVectors are implemented as [ropes](https://en.wikipedia.org/wiki/Rope_(data_structure)).
 Read and write operations are faster because of better better cache coherency,
 but size changing operations cost more as they have to update the size fields of the entire hierarchy instead of just one.

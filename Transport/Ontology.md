@@ -13,11 +13,11 @@ In computer science we use and apply this principle everyday and still often for
 
 
 ## Representations: Internal vs. External
-The internal format is used while the system is running and can be used for in other instances of the engine as well,
+The internal format is used while the system is running and can be used in other instances of the engine as well,
 as long as they have the same hardware (register bit length and endianness) and run the same software version.
 It also contains a lot of redundancy in acceleration data structures.
 The external format comes into play if a migration to a different instance of the engine is needed (hardware or software version)
-or a part of the data is extracted and compressed for backups or transport over network.
+or a part of the data is extracted and compressed for backups or transport over the network e.g. for version control.
 
 
 ## Outer Interface
@@ -31,10 +31,6 @@ We use natural numbers (unsigned integers) as our current computers can handle t
 A Triple is a tuple composed of 3 Symbols:
 <span style="color: red;">Entity</span>, <span style="color: green;">Attribute</span> and <span style="color: blue;">Value</span>.
 
-JSON: <span style="color: red;">{</span><span style="color: green;">"key"</span>: <span style="color: blue;">"value"</span><span style="color: red;">}</span>
-
-XML: &lt;<span style="color: red;">tag</span> <span style="color: green;">key</span>=<span style="color: blue;">"value"</span> /&gt;
-
 Natural Languages often call them <span style="color: red;">Subject</span>, <span style="color: green;">Predicate</span> and <span style="color: blue;">Object</span>:
 - English: A <span style="color: red;">car</span> <span style="color: green;">has</span> an <span style="color: blue;">engine</span>.
 - German: Ein <span style="color: red;">Auto</span> <span style="color: green;">hat</span> einen <span style="color: blue;">Motor</span>.
@@ -43,24 +39,36 @@ Natural Languages often call them <span style="color: red;">Subject</span>, <spa
 [Binary relations](https://en.wikipedia.org/wiki/Finitary_relation):
 (<span style="color: red;">a</span>, <span style="color: blue;">b</span>) ∈ <span style="color: green;">R</span>
 
+There are some more which can not reuse the Entity and thus lead to hierarchical structures like trees and lists:
+
+JSON: <span style="color: red;">{</span><span style="color: green;">"key"</span>: <span style="color: blue;">"value"</span><span style="color: red;">}</span>
+
+XML: &lt;<span style="color: red;">tag</span> <span style="color: green;">key</span>=<span style="color: blue;">"value"</span> /&gt;
+
 LISP: <span style="color: red;">(</span><span style="color: green;">car</span> <span style="color: blue;">cdr</span><span style="color: red;">)</span>
 
 ### Data
 Each symbol has its own infinite address space in which a binary state can be assigned to each index.
+The highest defined index is called its length.
 They do not interfere with the Triples in any way.
 They are an optimization and abstraction of memory virtualization:
 - To store numbers, text and files
 - To represent hardware devices and physical memory
 
 ### Namespace
-One instance of the engine can hold multiple separate Symbol Namespaces.
+One instance of the engine can hold multiple separate Namespaces.
+Symbols belong to a Namespace (in which they are unique) and Triples belong to the Namespace of their Entity.
+Triples can use Symbols from different Namespaces and are unique globally.
+Each Namespace has a Symbol and a special meta Namespace can be used to manage relations between different Namespaces.
+A relocation table allows for linking (static) / mounting (dynamic) foreign Namespaces by looking up all referenced Namespaces of the Triples inside.
 
 Possible use cases include:
 - Context isolation
-    - Relocation: Symbol collision and ambiguity
-    - Modularity / distribution / package management
+    - Distribution / Relocation: Symbol collision and ambiguity
+    - Modularity / decomposition / package management
     - Security (malicious) / robustness (accidental)
-    - Temporary workspaces / memoization / caching
+    - Temporary workspaces / concurrency
+    - Memoization / caching
 - Virtualization / views / mounting
     - Transparency: Materialized or virtual does not matter
     - Reification: e.g. hardware interfaces
@@ -138,6 +146,16 @@ Let alone storing huge files like audio or video data would be very impractical.
     - Must be explicitly queried
     - Symmetric and blends in nicely with the rest of the model
     - Generates some storage overhead
+
+### Renaming Symbols
+In a decentralized system each instance has to assign new Symbols unique identities independent of the other instances.
+However if they try to converge and merge their ontologies they can encounter two types of problems:
+- Symbol collision: Two instances assigned the same Symbol but meant different things
+- Symbol divergence: Two instances meant the same thing but assigned different Symbols
+To overcome this at least one instance needs to rename its Symbols upon merging.
+We didn't go for random UUIDs as they must be very long and thus take lots of memory.
+Also, they can not solve the divergence problem.
+Therefore, it needs to be possible to rename Symbols.
 
 ### Bits not Bytes
 I tried to understand the reason, why we are using 8 bits = 1 byte for
