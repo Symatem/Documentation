@@ -56,24 +56,24 @@ They are an optimization and abstraction of memory virtualization:
 - To represent hardware devices and physical memory
 
 ### Namespace
-One instance of the engine can hold multiple separate Namespaces.
-Symbols belong to a Namespace (in which they are unique) and Triples belong to the Namespace of their Entity.
+One instance of the engine holds multiple separate Namespaces.
+Symbols belong to a Namespace (in which they have an unique ID) and Triples belong to the Namespace of their Entity.
 Triples can use Symbols from different Namespaces and are unique globally.
-Each Namespace has a Symbol and a special meta Namespace can be used to manage relations between different Namespaces.
-A relocation table allows for linking (static) / mounting (dynamic) foreign Namespaces by looking up all referenced Namespaces of the Triples inside.
+Each Namespace has an ID: A Symbol of a special meta Namespace which is used to manage relations between different Namespaces.
+Furthermore, a Namespace is associated with a driver which handles all requests concerning this Namespace.
 
 Possible use cases include:
-- Context isolation
-    - Distribution / Relocation: Symbol collision and ambiguity
-    - Modularity / decomposition / package management
-    - Security (malicious) / robustness (accidental)
-    - Temporary workspaces / concurrency
-    - Memoization / caching
-- Virtualization / views / mounting
-    - Transparency: Materialized or virtual does not matter
-    - Reification: e.g. hardware interfaces
-    - Induction: e.g. infinite sets
-    - [Version Control](VersionControl.md)
+- Distribution / Relocation: Handle Symbol collision and ambiguity to integrate foreign ontologies
+- Sharing / Remote content
+- Modularity / decomposition / package management
+- Virtualization / views / linking / mounting
+- Isolation: Security (malicious) / robustness (accidental)
+- Memoization / caching
+- Transparency: Materialized or virtual does not matter
+- Reification: e.g. hardware interfaces
+- Induction: e.g. infinite sets
+- Temporary workspaces / concurrency
+- Transactions / [Version Control](VersionControl.md)
 
 
 ## Reasoning
