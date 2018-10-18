@@ -8,18 +8,19 @@ Almost all programming technologies today are arranged in some sort of spectrum.
 - Easy refactoring: Partitioning / capsulation and inlining
 - Abstraction mechanisms: Reflection / meta programming
 - No structural difference of compile-time and runtime
+- Not based on sequences or textual representation: Projectional editing
 
 ## Design Decisions
-- No syntax, macros or lookups: Projectional editing
+- No macros or lookups
 - Axiomatic / DAG Layers vs Cyclic Graphs: No fundamental primitives (primitives are just an optimization)
 - Control flow is expressed by data flow (using lambdas for conditional execution)
 - Parameter / arguments are not ordered only named (mapping)
 - Execution order is implicitly defined by data flow (partial ordering)
-- Stateful operations can use void carriers for explicit total ordering
+- Stateful operations can use void carriers for explicit (total) ordering
 - Operator boundaries are only for abstraction and not an implicit sync fence
 - Dynamic typing with automatic type deduction
 - Variables are split into transport declarations and placeholders
-- Const expressions / TypedPlaceholders / Deferring
+- Concolic: Const expressions (Concrete Execution) => Deferring => TypedPlaceholders (Symbolic Execution)
 
 ## Components
 - Operator:
@@ -39,12 +40,13 @@ Almost all programming technologies today are arranged in some sort of spectrum.
     - Special operand tags:
         - Constant: See carrier
         - Operator: Specifies which operator is called by the receiving operation
-        - Operands: Can pack and unpack all operands at a boundary
+        - Operands: Can pack and unpack all operands of a bundle at a boundary
 - Carrier:
     - Carriers are directional and have two ends (source and destination)
         - Both ends are associated with an operand tag
         - Both ends can be an operation or the outer operator
         - The source can be a constant value (using the "Constant" operand tag)
+    - They can be bundled in other carriers hierarchically
     - Carriers between operations contained by different operators are invalid
     - Data is replicated if multiple carriers are fed by one operand as source
 - Operator Instance:
@@ -56,7 +58,7 @@ Almost all programming technologies today are arranged in some sort of spectrum.
 
 ### Inspiration
 - LISP
-    - Reflection & meta-programming: Programs are data too
+    - Meta-programming / reflection / homoiconicity: Programs are of the same structure as other objects / data
     - Recursion instead of iteration
     - Minimalistic syntax: Almost projectional editing
     - Primitives are just an optimization and can be constructed using others

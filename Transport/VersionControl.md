@@ -1,7 +1,6 @@
 # Version Control
-
-## Version
 A version is one specific state the ontology can be in.
+
 
 ## Version DAG
 The version control system stores a DAG of versions as vertices and transactions as edges.
@@ -11,6 +10,7 @@ Each vertex / version is associated with:
 - Forward and backward differential
 - Meta Data
     - User defined: Timestamp, author, cryptographic signature, etc.
+
 
 ## Transaction
 A transaction (is mathematically a function) which transforms versions of the ontology to others.
@@ -47,6 +47,7 @@ Operation Sets:
     - Source Symbol
     - Source Offset
     - Length
+
 
 ## Operations
 - Record actions to create a differential
