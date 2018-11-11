@@ -3,7 +3,7 @@ This project is a different approach to many practical parts of software develop
 If you give it a try, you will find out soon, that even though some things are familiar others are completely alien to you.
 I recommend [this WBW Post](http://waitbutwhy.com/2015/11/the-cook-and-the-chef-musks-secret-sauce.html) about thinking differently in general.
 
-An analogy I came to like, even though it is based on the heavily overused quote attributed to Henry Ford, is the following:
+An analogy I came to like, even though it is inspired by the heavily overused quote attributed to Henry Ford, is the following:
 Imagine we would still live in a world of horses.
 If I were to talk about how I think I can revolutionize the transport system
 most people would expect some sort of genetically modified horses to run faster or something alike.

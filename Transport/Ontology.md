@@ -14,7 +14,7 @@ In computer science we use and apply this principle everyday and still often for
 
 ## Representations: Internal vs. External
 The internal format is used while the system is running and can be used in other instances of the engine as well,
-as long as they have the same hardware (register bit length and endianness) and run the same software version.
+as long as they have the same hardware (e.g. register bit length and endianness) and run the same software version.
 It also contains a lot of redundancy in acceleration data structures.
 The external format comes into play if a migration to a different instance of the engine is needed (hardware or software version)
 or a part of the data is extracted and compressed for backups or transport over the network e.g. for version control.
@@ -81,7 +81,7 @@ Possible use cases include:
 ### DISRP Pyramid
 Our interpretation and modification to the model of the [DIKW pyramid](https://en.wikipedia.org/wiki/DIKW_pyramid):
 
-- Data: BitMaps are unprocessed raw data. They have to be processed and structured to become useful. But they still have a purpose as this is the only layer which has a physical manifestation and it is thus necessary for the transport (storage and transmission). The indent of encodings is to bring all upper layers down to this one for practical reasons.
+- Data: Data fields contain unprocessed raw data. They have to be processed and structured to become useful. But they still have a purpose as this is the only layer which has a physical manifestation and it is thus necessary for the transport (storage and transmission). The indent of encodings is to bring all upper layers down to this one for practical reasons.
 - Information (What): Triples represent the interconnection and structure. They can answer specific questions to ”who”, ”what”, ”where”, ”how many”, ”when”. Information alone is not enough as it would only provide a database with a query interface.
 - Strategy (How): A system also needs to know how to do process information and what questions to ask: Algorithms, applications, encodings etc.
 - Reasoning (Why): Knowing the reason why things are the way they are, how they came to be and how they could be (simulation of alternatives) can help to further improve the own system by preventing the repetition of errors and learning from them, which might lead to new insights again.
@@ -112,8 +112,8 @@ Additionally we identified these:
 - No version control
 - Only a simple query engine (SPARQL) but no arbitrary programs / execution
 
-### Why we are using BitMaps
-Ontologies could work without BitMaps as pure EAV stores but then all literals and binary data would be expressed in an ugly and inefficient way.
+### Why we are using Data Fields
+Ontologies could work without data fields as pure EAV stores but then all literals and binary data would be expressed in an ugly and inefficient way.
 For example: Numbers would be represented like we humans do using a sequence of symbols, so called digits, forming a positional notation.
 Let alone storing huge files like audio or video data would be very impractical.
 
@@ -130,15 +130,15 @@ Let alone storing huge files like audio or video data would be very impractical.
     - Can be optimized internally (no overhead)
     - Limited by the available Symbols
 
-### Referencing triples
+### Referencing Triples / Meta Triples
 - Triple-ID: Just store a reference to an existing Triple
     - Requires the Triple to actually exist, no virtual or hypothetical Triples possible
     - A new type of Triple-Symbol would have to be introduced
-    - Would be inconsistent with the rest of the model which uses only Symbols and BitMaps
+    - Would be inconsistent with the rest of the model which uses only Symbols and data fields
 - Triple Attribute: Specialize the Attribute and let it inherit from the original Attribute as prototype
     - Attributes gain a special role and this is thus asymmetric
     - Harder to look for specific Attributes: They have to be derived first
-- Triple BitMap: A BitMap storing the tree Symbols
+- Triple as Raw Symbol Tuple: A data field storing the tree Symbols
     - Semantics can not be found by the search indices
     - Generates a smaller storage overhead
 - Triple Entity: An Entity storing the three Symbols as Attribute-Value-pairs (We use this option)

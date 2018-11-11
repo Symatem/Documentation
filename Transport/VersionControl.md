@@ -26,9 +26,8 @@ Properties of a transaction:
 - Determinism: Applying the same transaction to two identical inputs leads to two identical outputs
 
 ### Differential
-A differential describes a set of actions / operations forming a transaction.
-They can be ambiguous meaning that a transaction can be described by a variety of differentials.
-As opposed to other transaction mechanisms like backups of the entire state or copy-on-write this approach needs less memory but more computational power.
+A differential describes the minimal set of actions / operations forming a transaction,
+as opposed to a journal which would record all operations, even those which cancel out each other (annihilation).
 
 Composition:
 - Draft Data
@@ -67,6 +66,29 @@ Composition:
 
 
 ## Reasoning
+All version control is easy until you want to merge something.
+
+### Transactions
+- Holistic Snapshots
+    - Consumes lots of memory
+    - Spends time on copying all data all the time
+    - Checkout is free
+    - Differences and similarities must be calculated first: Hard to merge
+- Copy-on-Write
+    - Consumes less memory than holistic snapshots but more than differentials
+    - Spends time on copying the data it is about to change
+    - Checkout is free
+    - Some differences and similarities can be obtained, but still hard to merge
+- Journaling
+    - Consumes memory for every recorded action, even if it is irrelevant to the outcome (annihilation of actions)
+    - Spends time on application / checkouts
+    - Checkout needs a linear search from the last / closest checkout
+    - Easy to merge, except for redundancy in actions
+- Differential
+    - Consumes the least memory and can be compressed, optimized and squashed
+    - Spends time on recording, optimization
+    - Checkout needs a linear search from the last / closest checkout
+    - Easiest to merge
 
 ### Data Operations (Increase, Decrease, Replace)
 To allow a differential to be applied as easy and fast as possible, it is structured in a way that resembles its execution / application.
@@ -75,9 +97,13 @@ First all increase operations happen, then all replace operations and finally al
 This gives replace operations the chance to fetch data from sources which will be decreased later and store it into destinations which are already increased.
 The increase and decrease operations shift the offsets of operations with higher offsets.
 To avoid explicit ordering, the increase and decrease operations are sorted by their destination offset.
+
 This corresponds with their offsets being seen as before or after all operations of their kind took place:
     - Sorting operations descending results in offsets being seen as before any operation took place
     - Sorting operations ascending results in offsets being seen as after all operations took place
+
 Sorting increase operations ascending and decrease operations descending has two advantages:
-    - Their offsets stay the same when the differential is inverted. Increase and decrease operations are inverted by swapping them and flipping their order accordingly: No need to update offsets or sort operations again.
-    - Because replace operations happen in the middle (after all increase and before all decrease operations) they can share the same offset definition. This makes dependencies between different kinds of operations easier to handle as their offsets can be compared directly.
+    - Their offsets stay the same when the differential is inverted.
+    Increase and decrease operations just need to be swapped and their order be flipped accordingly: No need to update offsets or sort operations again.
+    - Because replace operations happen in the middle (after all increase and before all decrease operations) they can share the same offset definition.
+    This makes dependencies between different kinds of operations easier to handle as their offsets can be compared directly.

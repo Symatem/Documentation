@@ -20,7 +20,7 @@ There are 4 mathematically equivalent different ways to visualize Triples:
 
 - Hypergraph:
 Every Symbol is a point in a arbitrary space (in you imagination it might be 2D or 3D),
-Each BitMap is like a leave hanging from a Symbol
+Each data field is like a leave hanging from a Symbol
 and Triples are a strange kind of edges but not between two Symbols but three of them,
 having a direction from ... via ... through to ...
 

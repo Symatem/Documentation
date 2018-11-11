@@ -2,7 +2,7 @@
 A special feature of our encodings is that the size can not only
 be statically defined in the encoding and dynamically in the data, but also automatically inferred.
 So when nesting multiple encodings using composites, the responsibility to manage the size can be in the children, in the parent or the encoding.
-The outermost container is always a BitVector which has a dynamically defined size.
+The outermost container is always a Symbols data field which has a dynamically defined size.
 
 ## PODs
 - BinaryNumber: Natural numbers
@@ -10,7 +10,7 @@ The outermost container is always a BitVector which has a dynamically defined si
 - IEEE754: Floats
 - UTF8: Text
 
-These encodings do not have a defined size which means that their size has to be managed from the outside (by a composite of the BitVector).
+These encodings do not have a defined size which means that their size has to be managed from the outside (by a composite or the symbols data field).
 
 
 ## Composite
@@ -64,10 +64,10 @@ Statically in the encoding / data type or dynamically once per object / allocati
 So, if a data structure changes its size at different places,
 you have to split it up in parts which can change their size independently and use references / pointers in between them.
 
-This approach is also possible using BitVectors (as allocations) and Triples (as references / pointers),
+This approach is also possible using the data field of Symbols (as allocations) and Triples (as references / pointers),
 but in case your data structure is read far more often than changed in its size, you can use a new concept: Dynamic composite inlining.
 Inlining structs in structs in C is static composite inlining.
 However, in C these structs can not change their size.
-But our BitVectors can because BitVectors are implemented as [ropes](https://en.wikipedia.org/wiki/Rope_(data_structure)).
+But a Symbols data field can, because it is implemented as [ropes](https://en.wikipedia.org/wiki/Rope_(data_structure)).
 Read and write operations are faster because of better better cache coherency,
 but size changing operations cost more as they have to update the size fields of the entire hierarchy instead of just one.
