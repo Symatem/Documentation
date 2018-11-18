@@ -1,4 +1,6 @@
 # SYMbol relAtion sysTEM (Symatem)
+
+## What is this Project About?
 This project is a different approach to many practical parts of software development.
 If you give it a try, you will find out soon, that even though some things are familiar others are completely alien to you.
 I recommend [this WBW Post](http://waitbutwhy.com/2015/11/the-cook-and-the-chef-musks-secret-sauce.html) about thinking differently in general.
@@ -22,6 +24,7 @@ keep in mind that the first cars were merely toys of their inventors and nothing
 So even if I succeed in constructing and presenting my prototype system,
 we still have a long journey ahead of us to make it really useful.
 
+## Architecture
 I tried to break things down to their basic elements and rearrange them in a useful way regardless of how most others are doing them nowadays.
 The goal is to explore the possibility and develop a consistent system / framework uniting all of these components:
 - Processing

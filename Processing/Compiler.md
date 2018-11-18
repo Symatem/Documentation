@@ -27,7 +27,7 @@ in order to schedule (topological sort) and then interpret the operation DAG of 
 
 ### Phase 0: Cache Fetch / Primitive Detection
 For each operator called / executed the compiler first checks if the specific instantiation was executed already (if an entry exists in the cache).
-If so it is returned immediately (note that the entry can still have an auxiliary structure and be processed).
+If so it is returned immediately (note that the entry can still have an auxiliary structure and be unfinished).
 Else an entry is generated and pushed to the cache.
 Next the compiler checks if the operator is a primitive.
 If so it will be optimized and handled more directly, not going through the following phases in most cases.

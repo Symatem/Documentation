@@ -1,17 +1,22 @@
 # Version Control
 A version is one specific state the ontology can be in.
-
+One independent instance of the version control is called repository.
 
 ## Version DAG
-The version control system stores a DAG of versions as vertices and transactions as edges.
+A repository contains a DAG of versions as vertices and transactions as edges.
 There is an origin / orphan vertex which is the source of the DAG and represents the initially empty state of the version controlled ontology.
 Each vertex / version is associated with:
-- Parent version
-- Optional merged version
-- Forward differential
-- Optional backward differential
-- Meta Data
+- Parent version (mandatory)
+- Merged versions (optional)
+- Forward differential (mandatory)
+- Backward differential (optional)
+- Meta Data (optional)
     - User defined: Timestamp, author, cryptographic signature, etc.
+
+
+## Snapshots
+Doing a checkout results in a materialization of a version called snapshot.
+Unlike GIT, this version control system allows for many snapshots to exist in a repository simultaneously.
 
 
 ## Transaction
@@ -80,7 +85,7 @@ All version control is easy until you want to merge something.
     - Checkout is free
     - Some differences and similarities can be obtained, but still hard to merge
 - Journaling
-    - Consumes memory for every recorded action, even if it is irrelevant to the outcome (annihilation of actions)
+    - Consumes memory for every recorded action, even if it is irrelevant to the outcome (annihilation)
     - Spends time on application / checkouts
     - Checkout needs a linear search from the last / closest checkout
     - Easy to merge, except for redundancy in actions
@@ -99,11 +104,11 @@ The increase and decrease operations shift the offsets of operations with higher
 To avoid explicit ordering, the increase and decrease operations are sorted by their destination offset.
 
 This corresponds with their offsets being seen as before or after all operations of their kind took place:
-    - Sorting operations descending results in offsets being seen as before any operation took place
-    - Sorting operations ascending results in offsets being seen as after all operations took place
+- Sorting operations descending results in offsets being seen as before any operation took place
+- Sorting operations ascending results in offsets being seen as after all operations took place
 
 Sorting increase operations ascending and decrease operations descending has two advantages:
-    - Their offsets stay the same when the differential is inverted.
-    Increase and decrease operations just need to be swapped and their order be flipped accordingly: No need to update offsets or sort operations again.
-    - Because replace operations happen in the middle (after all increase and before all decrease operations) they can share the same offset definition.
-    This makes dependencies between different kinds of operations easier to handle as their offsets can be compared directly.
+- Their offsets stay the same when the differential is inverted.
+Increase and decrease operations just need to be swapped and their order be flipped accordingly: No need to update offsets or sort operations again.
+- Because replace operations happen in the middle (after all increase and before all decrease operations) they can share the same destination offset definition.
+This makes dependencies between different kinds of operations easier to handle as their destination offsets can be compared directly.
