@@ -19,7 +19,7 @@ a tight integration of this project and most other software makes not so much se
 In fact I want to keep it standing for itself and only use a few popular technologies as a launch pad
 similar to cars and horses sharing the same roads in the early days.
 
-And before you get to hyped up about all the things you might read here,
+And before you get too hyped up about all the things you might read here,
 keep in mind that the first cars were merely toys of their inventors and nothing like the ones we drive (or may soon drive us) today.
 So even if I succeed in constructing and presenting my prototype system,
 we still have a long journey ahead of us to make it really useful.

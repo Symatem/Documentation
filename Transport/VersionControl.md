@@ -56,6 +56,54 @@ Composition:
     - Source Offset
     - Length
 
+Order and Validity Constraints:
+- Create Symbols
+    - Symbol is seen as in the previous version
+    - Symbol cannot be used as:
+        - Source or Destination of Rename operations
+        - Source of Replace Data operations
+        - Destination of Decrease Data Length operations
+        - Entity, Attribute or Value of Unlink Triple operations
+        - Symbol of other Create Symbol operations (Duplication)
+        - Symbol of Release Symbol operations (Mutually exclusive)
+    - Symbol can only be used as:
+        - Destination of Increase Data Length operations
+        - Destination of Replace Data operations
+        - Entity, Attribute or Value of Link Triple operations
+- Rename Symbols
+    - Symbols are seen as in the previous version
+    - Unambiguous: Each Symbol can only be a source of one or no rename operation
+    - A Symbol can be destination of multiple rename operations
+- Increase Data Length
+    - Symbol is seen as after the rename operations
+    - Increase operations are sorted ascending by offset
+    - Destination Offset is seen as in the previous version plus lower offset Increase Data Length operations
+    - Mutually exclusive: One specific offset can remain unchanged, be increased or decreased, but not both
+- Replace Data
+    - Symbols are seen as after the rename operations
+    - Source data is seen as in the previous version
+    - Injective: Each bit of a Symbols data can only be a Destination of one or no Replace Data Operation (no overlaps are allowed)
+    - Destination Offset is seen as in the previous version plus lower offset Increase Data Length operations
+    - Source Offset is seen as in the previous version
+- Decrease Data Length
+    - Symbol is seen as after the rename operations
+    - Decrease operations are sorted descending by offset
+    - Destination Offset is seen as in the previous version plus lower offset Increase Data Length operations
+    - Mutually exclusive: One specific offset can remain unchanged, be increased or decreased, but not both
+- Link / Unlink Triples
+    - Symbols are seen as after the rename operations
+- Release Symbols
+    - Symbol is seen as in the previous version
+    - Symbol cannot be used as:
+        - Source or Destination of Rename operations
+        - Destination of Increase or Decrease Data Length operations
+        - Destination of Replace Data operations
+        - Entity, Attribute or Value of Link or Unlink Triple operations
+        - Symbol of other Release Symbol operations (Duplication)
+        - Symbol of Create Symbol operations (Mutually exclusive)
+    - Symbol can only be used as:
+        - Source of Replace Data operations
+
 
 ## Operations
 - Create a differential:
