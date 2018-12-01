@@ -28,7 +28,7 @@ we still have a long journey ahead of us to make it really useful.
 I tried to break things down to their basic elements and rearrange them in a useful way regardless of how most others are doing them nowadays.
 The goal is to explore the possibility and develop a consistent system / framework uniting all of these components:
 - Processing
-    - [Programming "Language"](Processing/Programming.md)
+    - [Programming](Processing/Programming.md)
     - [Compiler](Processing/Compiler.md)
     - [Concurrency](Processing/Concurrency.md)
     - [Standard Library](Processing/StandardLibrary.md)
