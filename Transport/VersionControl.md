@@ -83,8 +83,7 @@ Order and Validity Constraints:
     - Symbols are seen as after the rename operations
     - Source data is seen as in the previous version
     - Injective: Each bit of a Symbols data can only be a Destination of one or no Replace Data Operation (no overlaps are allowed)
-    - Destination Offset is seen as in the previous version plus lower offset Increase Data Length operations
-    - Source Offset is seen as in the previous version
+    - Destination and Source Offset are seen as in the previous version plus lower offset Increase Data Length operations
 - Decrease Data Length
     - Symbol is seen as after the rename operations
     - Decrease operations are sorted descending by offset
@@ -158,5 +157,5 @@ This corresponds with their offsets being seen as before or after all operations
 Sorting increase operations ascending and decrease operations descending has two advantages:
 - Their offsets stay the same when the differential is inverted.
 Increase and decrease operations just need to be swapped and their order be flipped accordingly: No need to update offsets or sort operations again.
-- Because replace operations happen in the middle (after all increase and before all decrease operations) they can share the same destination offset definition.
-This makes dependencies between different kinds of operations easier to handle as their destination offsets can be compared directly.
+- Because replace operations happen in the middle (after all increase and before all decrease operations) they can share the same offset definition.
+This makes dependencies between different kinds of operations easier to handle as their offsets can be compared directly.
