@@ -36,7 +36,7 @@ as opposed to a journal which would record all operations, even those which canc
 
 Composition:
 - Draft Data
-- Create / Release Symbol
+- Manifest / Release Symbol
     - Symbol
 - Rename / Relocate Symbol
     - Destination Symbol
@@ -57,8 +57,12 @@ Composition:
     - Length
 
 Order and Validity Constraints:
-- Create Symbols
-    - Symbol is seen as in the previous version
+- Rename Symbols
+    - Symbols are seen as in the previous version
+    - Unambiguous: Each Symbol can only be a source of one or no rename operation
+    - A Symbol can be destination of multiple rename operations
+- Manifest Symbol
+    - Symbol is seen as after rename operations
     - Symbol cannot be used as:
         - Source or Destination of Rename operations
         - Source of Replace Data operations
@@ -70,10 +74,6 @@ Order and Validity Constraints:
         - Destination of Increase Data Length operations
         - Destination of Replace Data operations
         - Entity, Attribute or Value of Link Triple operations
-- Rename Symbols
-    - Symbols are seen as in the previous version
-    - Unambiguous: Each Symbol can only be a source of one or no rename operation
-    - A Symbol can be destination of multiple rename operations
 - Increase Data Length
     - Symbol is seen as after the rename operations
     - Increase operations are sorted ascending by offset
@@ -89,9 +89,9 @@ Order and Validity Constraints:
     - Decrease operations are sorted descending by offset
     - Destination Offset is seen as in the previous version plus lower offset Increase Data Length operations
     - Mutually exclusive: One specific offset can remain unchanged, be increased or decreased, but not both
-- Link / Unlink Triples
+- Link / Unlink Triple
     - Symbols are seen as after the rename operations
-- Release Symbols
+- Release Symbol
     - Symbol is seen as in the previous version
     - Symbol cannot be used as:
         - Source or Destination of Rename operations

@@ -1,7 +1,7 @@
 # Compiler
 
 ## Entry
-Each instantiation of an operator with specific input operands creates one entry in a cache (similar to templates in C++).
+Each instantiation of an operator with specific input operands creates one entry in a memorization cache (similar to templates in C++).
 - symbol: Identifies this specific instantiation
 - inputOperands: Map of operand tags and their input operands
     - operator: The operator to be called / executed is one of the input operands
