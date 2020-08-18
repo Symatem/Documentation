@@ -9,10 +9,10 @@ This model does not scale at all as you can always only have a single thread of 
 otherwise you would experience a lot of undefined behavior and it is completely unusable.
 
 ### Level 1: Pessimistic Locking / Strict Consistency
-When a unit is about to enter a potential race condition, it halts all other units and informs them of this.
-Then all other units have to wait if they wanted to participate in that race condition,
+When a unit is about to enter a potential race condition, it halts all other units and informs them.
+Then all other units have to wait if they wanted to participate,
 which prevents the actual race condition from happening and therefore enforces consistency (strictly).
-When the unit is finished with its tasks it halts all other units again to inform them.
+When the unit is done with its tasks it halts all other units again to inform them.
 
 This model scales a little until it hits a certain constant limit.
 From there on the time spent on managing the locks and exchanging information about the status of resources is far longer than performing the actual task.
@@ -27,7 +27,7 @@ Ultimately, all branches have to be merged back into the master branch, leading 
 Both are similar, with the difference that optimistic locking simply discards the other branches implicitly,
 while eventual consistency has to merge the differences explicitly and thus requires special programming for the merging.
 
-### Level 3: VCS
+### Level 3: Distributed Version Control
 This model can branch and can also merge but there is no need to do so.
 Instead all branches form a directed acyclic graph (DAG) much like GIT.
 
@@ -41,4 +41,4 @@ Instead all branches form a directed acyclic graph (DAG) much like GIT.
     - The outer could become massive and too big / long, preventing interaction with others
     - Would be the same as using a pessimistic semaphore, not really optimistic
 - Forbid nesting of transactions
-    - Programmers might violate this rule without noticing, hidden in a called subroutine or recursion
+    - Programmers might violate this rule without noticing, hidden in a subroutine or recursion

@@ -1,31 +1,12 @@
-# Ontology
-When I started this project I asked my self: "What is information?"
-This seemed to be the central question, as many terms are gathered around it:
-Computer, mathematics, other sciences, the word intelligence ...
-everything is about storing and evaluating information.
+# Graph Model
 
-A little thought experiment: Take a dictionary and assign an integer to each word.
-Send a copy of this dictionary to a friend and then encode a letter using these word-to-integer translations.
-Except from the additional work overhead, nothing has changed, when compared to writing normal letters.
-The information remains exactly the same.
-So information does not arise form the Symbols but only from the relations between them.
-In computer science we use and apply this principle everyday and still often forget about it.
-
-
-## Representations: Internal vs. External
-The internal format is used while the system is running and can be used in other instances of the engine as well,
-as long as they have the same hardware (e.g. register bit length and endianness) and run the same software version.
-It also contains a lot of redundancy in acceleration data structures.
-The external format comes into play if a migration to a different instance of the engine is needed (hardware or software version)
-or a part of the data is extracted and compressed for backups or transport over the network e.g. for version control.
-
-
-## Outer Interface
+## Basic Concepts
 
 ### Symbol
-They act as pointer, references or object identifiers.
-Because they don't encode any information, every distinguishable thing does the job.
-We use natural numbers (unsigned integers) as our current computers can handle them the best.
+They are the handles needed to "grab" information.
+However, they do not encode the information, that happens in the Triples and Data fields.
+To do their job they only need to be distinguishable / unique.
+Thus, we use natural numbers (unsigned integers) as our current digital computers can handle them the best.
 
 ### Triple
 A Triple is a tuple composed of 3 Symbols:
@@ -52,7 +33,7 @@ Each symbol has its own infinite address space in which a binary state can be as
 The highest defined index is called its length.
 They do not interfere with the Triples in any way.
 They are an optimization and abstraction of memory virtualization:
-- To store numbers, text and files
+- To store numbers, text and media like images, audio and video
 - To represent hardware devices and physical memory
 
 ### Namespace
@@ -76,7 +57,39 @@ Possible use cases include:
 - Transactions / [Version Control](VersionControl.md)
 
 
+## Comparison
+
+### Compared to the Property Graph Model
+
+### Compared to the Relational Model
+
+### Compared to the Semantic Web
+Some of the flaws of the semantic web are described in [these blog posts](http://milicicvuk.com/blog/2011/07/14/problems-of-the-rdf-model-blank-nodes/):
+- Too many different technologies: RDF, OWL, Turtle, N3, ...
+- 3 types of symbols (called terms): IRIs (Internationalized Resource Identifiers), Literals, Blank Nodes
+- Literal encodings / data types are a special feature and not represented in Triples
+- Literal values define the identity of the token, thus can not be context specific
+- EAV is asymmetric: Each element of a triple can only host certain types of symbols
+
+Additionally we identified these:
+- No usable tool chain
+- No virtualization
+- No version control
+- Only a simple query engine (SPARQL) but no arbitrary programs / execution
+
+
 ## Reasoning
+When I started this project I asked my self: "What is information?"
+This seemed to be the central question, as many terms are gathered around it:
+Computer, mathematics, other sciences, the word intelligence ...
+everything is about transporting and processing information.
+
+A little thought experiment: Take a dictionary and assign an integer to each word.
+Send a copy of this dictionary to a friend and then encode a letter using these word-to-integer translations.
+Except from the additional work overhead, nothing has changed, when compared to writing normal letters.
+The information remains exactly the same.
+So information does not arise form the symbols but only from the relations between them.
+In computer science we use and apply this principle everyday and still often forget about it.
 
 ### DISRP Pyramid
 Our interpretation and modification to the model of the [DIKW pyramid](https://en.wikipedia.org/wiki/DIKW_pyramid):
@@ -93,24 +106,13 @@ but it is quiet annoying when it comes to ordering things.
 So using tuples (which can be formed out of sets only) is a more elegant way.
 
 I considered different orders and dimensions too:
-- 0 and 1-Tuples make no sense as they don't create any relation
-- Pure 2 Tuples are possible but need lots of blank nodes as proxies and end up emulating Triples
-- Fixed n-Tuples have to assign a fixed meaning for each position (scheme) and end up being a database table with sparse values
-- Dynamic n-Tuples have to define a meaning for each position too (Attribute) and end up emulating triples again
+- 0 and 1-tuples make no sense as they don't create any relation
+- Pure 2-tuples are possible but need lots of blank nodes as proxies and end up emulating Triples
+- Fixed n-tuples have to assign a fixed meaning for each position (scheme) and end up being a database table with sparse values
+- Dynamic n-tuples have to define a meaning for each position too (Attribute) and end up emulating triples again
 
-### Why we don't use Semantic Web Technologies
-Some of the flaws are described in [these blog posts](http://milicicvuk.com/blog/2011/07/14/problems-of-the-rdf-model-blank-nodes/):
-- Too many different technologies: RDF, OWL, Turtle, N3, ...
-- 3 types of symbols (called terms): IRIs (Internationalized Resource Identifiers), Literals, Blank Nodes
-- Literal encodings / data types are a special feature and not represented in Triples
-- Literal values define the identity of the token, thus can not be context specific
-- EAV is asymmetric: Each element of a triple can only host certain types of symbols
-
-Additionally we identified these:
-- No usable tool chain
-- No virtualization
-- No version control
-- Only a simple query engine (SPARQL) but no arbitrary programs / execution
+All in all, triples are an elegant way to normalize discrete information.
+They can be used as a protocol for transport and processing while using a dynamic scheme and thus allow all kinds of data structures.
 
 ### Why we are using Data Fields
 Ontologies could work without data fields as pure EAV stores but then all literals and binary data would be expressed in an ugly and inefficient way.

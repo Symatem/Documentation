@@ -4,6 +4,13 @@ be statically defined in the encoding and dynamically in the data, but also auto
 So when nesting multiple encodings using composites, the responsibility to manage the size can be in the children, in the parent or the encoding.
 The outermost container is always a Symbols data field which has a dynamically defined size.
 
+## Representations: Internal vs. External
+The internal format is the image used while the system is running and can be used in other instances of the engine as well,
+as long as they have the same hardware (e.g. register bit length and endianness) and run the same software version.
+It also contains a lot of redundancy in acceleration data structures.
+The external formats come into play if a migration to a different instance of the engine is needed (hardware or software version)
+or a part of the data is extracted and compressed for backups or transport over the network e.g. for version control.
+
 ## PODs
 - BinaryNumber: Natural numbers
 - TwosComplement: Integers
